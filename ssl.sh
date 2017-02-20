@@ -14,12 +14,12 @@ openssl rsa -in cert/server.key.org -out cert/server.key
 rm cert/server.key.org
 
 echo "Generating CA..."
-touch index.txt
-echo 01 > serial
-openssl req -new -x509 -days 3650 -keyout ca.key -out ca.crt -config openssl.cnf
+touch cert/index.txt
+echo 01 > cert/serial
+openssl req -new -x509 -days 3650 -keyout cert/ca.key -out cert/ca.crt -config openssl.cnf
 
 echo "Generating certificate..."
-openssl ca -in cert/server.csr -out cert/server.crt -cert ca.crt -keyfile ca.key -extensions v3_req -config openssl.cnf
+openssl ca -in cert/server.csr -out cert/server.crt -cert cert/ca.crt -keyfile cert/ca.key -extensions v3_req -config openssl.cnf
 
 echo "Copying certificate (cert/server.crt) to /usr/local/etc/nginx/ssl/"
 mkdir -p /usr/local/etc/nginx/ssl/
